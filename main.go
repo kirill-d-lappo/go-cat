@@ -1,6 +1,13 @@
 package main
 
+import "os"
+
 func main() {
-	concater := NewConcater()
+
+	concaterBuilder := NewConcaterBuilder()
+	concaterBuilder.UsingTarget(os.Stdout)
+	concaterBuilder.AddSource(os.Stdin)
+
+	concater := concaterBuilder.Build()
 	concater.Concatenate()
 }
