@@ -1,12 +1,19 @@
 package main
 
-import "os"
+import (
+	"cat/lib/concater"
+	"os"
+)
 
 func main() {
 
-	concaterBuilder := NewConcaterBuilder()
+	concaterBuilder := concater.NewConcaterBuilder()
 	concaterBuilder.UsingTarget(os.Stdout)
-	concaterBuilder.AddSource(os.Stdin)
+
+	// FixMe [2020/05/29 KL] Implement argument consumption
+	// concaterBuilder.AddSource(func() *os.File { return os.Stdin })
+	concaterBuilder.AddSource(func() *os.File { f, _ := os.Open("in1"); return f })
+	concaterBuilder.AddSource(func() *os.File { f, _ := os.Open("in2"); return f })
 
 	concater := concaterBuilder.Build()
 	concater.Concatenate()
