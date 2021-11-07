@@ -10,13 +10,13 @@ import (
 func RunCat(config CatConfig) {
 	readers := reader.ReaderCollection{}
 
-	ApplyConfig(config, readers)
+	ApplyConfig(&config, &readers)
 
 	cat := &concater.Concater{Readers: readers}
 	cat.WriteTo(os.Stdout)
 }
 
-func ApplyConfig(config CatConfig, readers reader.ReaderCollection) {
+func ApplyConfig(config *CatConfig, readers *reader.ReaderCollection) {
 	if len(config.filePaths) <= 0 {
 		readers.AddFile(os.Stdin)
 	}
