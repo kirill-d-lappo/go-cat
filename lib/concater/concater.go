@@ -1,12 +1,13 @@
 package concater
 
 import (
+	"cat/lib/iterator"
 	"cat/lib/reader"
 	"os"
 )
 
 type Concater struct {
-	Readers ReaderCollection
+	Readers iterator.Iterable
 }
 
 func (c Concater) WriteTo(out *os.File) {

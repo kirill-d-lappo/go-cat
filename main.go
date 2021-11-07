@@ -2,11 +2,13 @@ package main
 
 import (
 	"cat/lib/concater"
+	"cat/lib/reader"
 	"os"
+	"path/filepath"
 )
 
 func main() {
-	readers := concater.ReaderCollection{}
+	readers := reader.ReaderCollection{}
 
 	fileNames := os.Args[1:]
 
@@ -18,6 +20,11 @@ func main() {
 		if n == "-"{
 			readers.AddFile(os.Stdin)
 			continue
+		}
+
+		n, atTheDisco := filepath.Abs(n)
+		if atTheDisco != nil{
+			panic(atTheDisco)
 		}
 
 		readers.AddFileFromPath(n)

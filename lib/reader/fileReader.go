@@ -15,7 +15,7 @@ type FileReader struct {
 	current []byte
 }
 
-func (fr FileReader) Move() (bool, error) {
+func (fr *FileReader) Move() (bool, error) {
 	nextBytes, e := fr.readNextBytes()
 	if e != nil {
 		fr.dispose()
@@ -31,7 +31,7 @@ func (fr FileReader) Move() (bool, error) {
 	return true, nil
 }
 
-func (fr FileReader) Current() interface{} {
+func (fr *FileReader) Current() interface{} {
 	return fr.current
 }
 

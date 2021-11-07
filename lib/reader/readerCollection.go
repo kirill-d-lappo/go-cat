@@ -1,14 +1,12 @@
-package concater
+package reader
 
 import (
 	"cat/lib/iterator"
-	"cat/lib/reader"
 	"os"
 )
 
 type ReaderCollection struct {
-	readers []iterator.Iterable
-	currentReaderIndex int
+	readers []interface{}
 }
 
 func (r *ReaderCollection) AddReader(reader iterator.Iterable)  {
@@ -16,7 +14,7 @@ func (r *ReaderCollection) AddReader(reader iterator.Iterable)  {
 }
 
 func (r *ReaderCollection) AddFile(file *os.File)  {
-	read := &reader.FileReader{File: file}
+	read := &FileReader{File: file}
 	r.AddReader(read)
 }
 
@@ -29,19 +27,6 @@ func (r *ReaderCollection) AddFileFromPath(fileName string)  {
 	r.AddFile(file)
 }
 
-func (r ReaderCollection) Move() (bool, error) {
-	if r.currentReaderIndex >= len(r.readers){
-		return false, nil
-	}
-
-	r.currentReaderIndex++
-	return true, nil
-}
-
-func (r ReaderCollection) Current() interface{} {
-	return r.readers[r.currentReaderIndex]
-}
-
 func (r ReaderCollection) GetIterator() iterator.Iterator {
-	return r
+	return iterator.NewIterable(r.readers).GetIterator()
 }
