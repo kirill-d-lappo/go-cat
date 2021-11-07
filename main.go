@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	config, e := NewCatConfig(os.Args)
+	config, e := NewCatConfig(os.Args[1:])
 	if e == nil {
 		RunCat(config)
 		return

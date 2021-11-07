@@ -23,13 +23,13 @@ type CatConfig struct {
 
 func NewCatConfig(args []string) (*CatConfig, error) {
 	options := CatOptions{}
-	args, e := flags.ParseArgs(&options, args)
+	parsedArgs, e := flags.ParseArgs(&options, args)
 	if e != nil {
 		return nil, e
 	}
 
 	config := &CatConfig{
-		filePaths: args,
+		filePaths: parsedArgs,
 		options:   options,
 	}
 
