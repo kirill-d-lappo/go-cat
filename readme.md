@@ -2,7 +2,7 @@
 
 ## Description
 
-`cat` copies each file (‘-’ means standard input), or standard input if none are given, to standard output.
+cat - concatenate files and print on the standard output
 
 ## Usage:
 

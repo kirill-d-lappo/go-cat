@@ -6,15 +6,23 @@ import (
 )
 
 func main() {
+	readers := concater.ReaderCollection{}
 
-	concaterBuilder := concater.NewConcaterBuilder()
-	concaterBuilder.UsingTarget(os.Stdout)
+	fileNames := os.Args[1:]
 
-	// FixMe [2020/05/29 KL] Implement argument consumption
-	// concaterBuilder.AddSource(func() *os.File { return os.Stdin })
-	concaterBuilder.AddSource(func() *os.File { f, _ := os.Open("in1"); return f })
-	concaterBuilder.AddSource(func() *os.File { f, _ := os.Open("in2"); return f })
+	if len(fileNames) <= 0{
+		readers.AddFile(os.Stdin)
+	}
 
-	concater := concaterBuilder.Build()
-	concater.Concatenate()
+	for _, n := range fileNames {
+		if n == "-"{
+			readers.AddFile(os.Stdin)
+			continue
+		}
+
+		readers.AddFileFromPath(n)
+	}
+
+	cat := &concater.Concater{Readers: readers}
+	cat.WriteTo(os.Stdout)
 }
