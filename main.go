@@ -1,35 +1,28 @@
 package main
 
-import (
-	"cat/lib/concater"
-	"cat/lib/reader"
-	"os"
-	"path/filepath"
-)
-
 func main() {
-	readers := reader.ReaderCollection{}
+	config := NewCatConfig()
 
-	fileNames := os.Args[1:]
-
-	if len(fileNames) <= 0{
-		readers.AddFile(os.Stdin)
+	if config.showVersion {
+		printVersion()
+		return
 	}
 
-	for _, n := range fileNames {
-		if n == "-"{
-			readers.AddFile(os.Stdin)
-			continue
-		}
+	RunCat(config)
+}
 
-		n, atTheDisco := filepath.Abs(n)
-		if atTheDisco != nil{
-			panic(atTheDisco)
-		}
+func printVersion() {
+	versionText := `cat (GO-CAT project) 0.1.0
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 
-		readers.AddFileFromPath(n)
-	}
+Original cat is written by Torbjorn Granlund and Richard M. Stallman.
 
-	cat := &concater.Concater{Readers: readers}
-	cat.WriteTo(os.Stdout)
+go version is written by Kirill Lappo as a part of go-cat project.
+
+just for fun
+`
+
+	print(versionText)
 }
