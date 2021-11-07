@@ -14,6 +14,7 @@ type CatOptions struct {
 	ShowVersion            bool `long:"version" description:"output version information and exit"`
 	ShowAll                bool `short:"A" long:"show-all" description:"equivalent to -vET"`
 	ShowNonPrintingEOL     bool `short:"e" long:"" description:"equivalent to -vE"`
+	IgnoredU               bool `short:"u" description:"(ignored)"`
 }
 
 type CatConfig struct {
