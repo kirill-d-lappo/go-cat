@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	BufferSize int    = 256
-	Buffer     []byte = make([]byte, BufferSize)
+	BufferSize = 256
+	Buffer     = make([]byte, BufferSize)
 )
 
 type FileReader struct {

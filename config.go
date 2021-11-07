@@ -1,28 +1,37 @@
 package main
 
-import "flag"
+import (
+	"github.com/jessevdk/go-flags"
+)
+
+type CatOptions struct {
+	ShowNonBlankLineNumber bool `short:"b" long:"number-nonblank" description:"number nonempty output lines, overrides -n"`
+	ShowEOL                bool `short:"E" long:"show-ends" description:"display $ at end of each line"`
+	ShowLineNumber         bool `short:"n" long:"number" description:"number all output lines"`
+	SqueezeBlank           bool `short:"s" long:"squeeze-blank" description:"suppress repeated empty output lines"`
+	ShowTabs               bool `short:"T" long:"show-tabs" description:"display TAB characters as ^I"`
+	ShowNonPrinting        bool `short:"v" long:"show-nonprinting" description:"use ^ and M- notation, except for LFD and TAB"`
+	ShowVersion            bool `long:"version" description:"output version information and exit"`
+	ShowAll                bool `short:"A" long:"show-all" description:"equivalent to -vET"`
+	ShowNonPrintingEOL     bool `short:"e" long:"" description:"equivalent to -vE"`
+}
 
 type CatConfig struct {
 	filePaths []string
-	shouldNumberLines bool
-	shouldNumberNonBlankLines bool
-	showTabs bool
-	squeezeBlank bool
-	showEOL bool
-	showVersion bool
+	options   CatOptions
 }
 
-func NewCatConfig() CatConfig {
-	config := CatConfig{}
-	InitFlags(&config)
-	return config
-}
+func NewCatConfig(args []string) (*CatConfig, error) {
+	options := CatOptions{}
+	args, e := flags.ParseArgs(&options, args)
+	if e != nil {
+		return nil, e
+	}
 
-func InitFlags(config *CatConfig) {
-	flag.BoolVar(&(config.showVersion), "version", false, "output version information and exit")
-	flag.BoolVar(&(config.showVersion), "v", false, "output version information and exit")
+	config := &CatConfig{
+		filePaths: args,
+		options:   options,
+	}
 
-	flag.Parse()
-
-	config.filePaths = flag.Args()
+	return config, nil
 }
